@@ -1,9 +1,9 @@
 import React from 'react';
-import Schedule from '../components/Schedule';
+import Schedule1 from '../components/Schedule1';
 const AdminUserSchedule = ()=>{
     return (
         <>
-            <Schedule/>
+            <Schedule1/>
         </>
     );
 };

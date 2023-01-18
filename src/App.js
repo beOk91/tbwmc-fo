@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Layout, Menu, theme } from 'antd';
 import AdminUserList from './pages/AdminUserList';
-import AdminUserSchedule from './pages/AdminUserSchedule';
+import AdminUserSchedule1 from './pages/AdminUserSchedule1';
+import AdminUserSchedule2 from './pages/AdminUserSchedule2';
 
 function App() {
 
@@ -37,8 +38,12 @@ function App() {
       key: "/user",
     },
     {
-      label: <Link to="/lesson">수강관리</Link>,
-      key: "/lesson",
+      label: <Link to="/lesson1">수강관리(1)</Link>,
+      key: "/lesson1",
+    },
+    {
+      label: <Link to="/lesson2">수강관리(2)</Link>,
+      key: "/lesson2",
     },
   ];
 
@@ -63,9 +68,14 @@ function App() {
             <AdminUserList />
           </div>
         }
-        {current === '/lesson' &&
+        {current === '/lesson1' &&
           <div style={{ padding: 24, minHeight: 380, background: colorBgContainer }}>
-            <AdminUserSchedule />
+            <AdminUserSchedule1 />
+          </div>
+        }
+        {current === '/lesson2' &&
+          <div style={{ padding: 24, minHeight: 380, background: colorBgContainer }}>
+            <AdminUserSchedule2 />
           </div>
         }
       </Content>
