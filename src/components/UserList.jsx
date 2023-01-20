@@ -45,10 +45,12 @@ const UserList = () => {
         }
     }
     return (
-        <>
-            <Button type="primary" onClick={retrieveUser} icon={<SearchOutlined />}>
-            조회
-            </Button>
+        <>  
+            <div style={{marginLeft:"auto", height:"30px", marginRight: "24px", margin: "10px 50px 10px 50px"}}>
+                <Button type="primary" onClick={retrieveUser} icon={<SearchOutlined />} style={{position:"absolute", right:"50px", margin:"0 24px"}}>
+                조회
+                </Button>
+            </div>
             <Table
                 columns={columns}
                 dataSource={dataSource}
