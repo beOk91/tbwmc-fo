@@ -222,7 +222,7 @@ const [count, setCount] = useState(1);
 
     return (
         <>
-            <form onSubmit={submitForm}>
+            <form>
                 <div style={{margin: "10px 10px 10px 10px"}}>
                     <label htmlFor="email">이름</label>
                     <Input style={{width: "150px", marginLeft:"20px"}} placeholder="이름" onChange={onChange} value={userName} name="userName" required/>
