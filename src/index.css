@@ -42,3 +42,11 @@ code {
 .insert-lesson-table-th {
   text-align: center;
 }
+
+.ant-radio-button-wrapper:first-child {
+  border-radius:6px;
+}
+
+.ant-radio-button-wrapper:last-child {
+  display: none;
+}
