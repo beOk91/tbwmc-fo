@@ -1,56 +1,40 @@
 import React,{useState} from 'react';
-import { Table, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { Table } from 'antd';
 
 const columns = [
     {
-        title: 'Id',
+        title: 'seq',
         dataIndex: 'memberSeq',
         width: '10%'
     },
     {
-        title: 'UserName',
+        title: '이름',
         dataIndex: 'memberId',
         width: '20%'
     },
     {
-        title: '이름',
+        title: '등록일',
         dataIndex: 'name',
     },
     {
-        title: 'columns2',
-        dataIndex: 'columns2',
+        title: '수강개월',
+        dataIndex: 'name',
     },
     {
-        title: 'columns3',
-        dataIndex: 'columns3',
+        title: '수강요일',
+        dataIndex: 'name',
     },
     {
-        title: 'columns4',
-        dataIndex: 'columns4',
-    }
+        title: '이메일',
+        dataIndex: 'email',
+    },
 ];
 
 
 
-const UserList = () => {
-    const [dataSource,setDataSource] = useState([]);
-    const retrieveUser = async ()=>{
-        try{
-            const response = await axios.get('/user/list', {withCredentials: true });
-            setDataSource(response.data);
-        }catch(err){
-            console.log(err);
-        }
-    }
+const UserList = ({dataSource}) => {
     return (
         <>  
-            <div style={{marginLeft:"auto", height:"30px", marginRight: "24px", margin: "10px 50px 10px 50px"}}>
-                <Button type="primary" onClick={retrieveUser} icon={<SearchOutlined />} style={{position:"absolute", right:"50px", margin:"0 24px"}}>
-                조회
-                </Button>
-            </div>
             <Table
                 columns={columns}
                 dataSource={dataSource}
