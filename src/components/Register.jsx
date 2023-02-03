@@ -251,7 +251,7 @@ const handleDelete = (key) => {
     console.log(userName, registeredDt.format('YYYY-MM-DD'), email, dataSource);
     
     handleCancel();
-  }
+  };
 
     return (
         <>
