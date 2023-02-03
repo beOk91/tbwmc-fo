@@ -95,7 +95,7 @@ const Schedule1 = () =>{
       
     return (
         <>   
-            <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+            <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} mode="month" />
         </>
     )
 }

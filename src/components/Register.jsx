@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { DatePicker,TimePicker, Form, Table, Input,Popconfirm, Button, Select} from 'antd';
+import { useDispatch } from 'react-redux';
+import { DatePicker,TimePicker, Form, Table, Input,Popconfirm, Button, Select, Radio} from 'antd';
 import moment from "moment";
 import dayjs from 'dayjs';
+
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -121,11 +124,23 @@ const OPTIONS = [
     { value: "sun", name: "일" },
 ];
 
-const Register = ()=> {
+const reducer = (state,action)=>{
+    switch (action.type) {
+      case SIGN_UP_REQUEST:
+        break;
+        default:
+            return;
+    }
+};
+
+const Register = ({handleCancel})=> {
     const [userName,setUserName] = useState('');
     const [registeredDt, setRegisteredDt]= useState('');
-
+    const [email,setEmail] = useState('');
+    const [monthOfRegistration,setMonthOfRegistration] = useState("1");
     const [dataSource, setDataSource] = useState([]);
+
+    const dispatch = useDispatch();
 
     const onChange = (e)=>{
         const {value, name} = e.target;
@@ -133,15 +148,22 @@ const Register = ()=> {
             case 'userName':
                 setUserName(value);
                 return;
+            case 'email':
+                setEmail(value);
+                return;
+            case 'monthOfRegistration':
+                setMonthOfRegistration(value);
+                return;
         }
     };
 
     const onChangeDatePicker = (date, dateString) => {
         console.log(date, dateString);
+        setRegisteredDt(dayjs(dateString,'YYYY-MM-DD'));
     };
 
 const [count, setCount] = useState(1);
-  const handleDelete = (key) => {
+const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
@@ -176,12 +198,14 @@ const [count, setCount] = useState(1);
     },
   ];
 
+  const options = ['1','2','3'];
+
   const handleAdd = () => {
     if(dataSource.length<7){
         const newData = {
         key: count,
         day:'mon',
-        lessonTime: '00:01',
+        lessonTime: '00:00',
         };
         setDataSource([...dataSource, newData]);
         setCount(count + 1);
@@ -198,12 +222,14 @@ const [count, setCount] = useState(1);
     });
     setDataSource(newData);
   };
+
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
+
   const columns = defaultColumns.map((col) => {
     if (!col.editable) {
       return col;
@@ -220,27 +246,46 @@ const [count, setCount] = useState(1);
     };
   });
 
+
+  const onSubmitForm = ()=>{
+    console.log(userName, registeredDt.format('YYYY-MM-DD'), email, dataSource);
+    
+    handleCancel();
+  }
+
     return (
         <>
-            <form>
+            <Form onFinish={onSubmitForm}>
                 <div style={{margin: "10px 10px 10px 10px"}}>
-                    <label htmlFor="email">이름</label>
-                    <Input style={{width: "150px", marginLeft:"20px"}} placeholder="이름" onChange={onChange} value={userName} name="userName" required/>
+                    <Form.Item label="이름">
+                        <Input style={{width: "150px"}} placeholder="이름" onChange={onChange} value={userName} name="userName" required/>
+                    </Form.Item>
                 </div>
                 <div>
-                    <label htmlFor="email">등록일</label>
-                    <DatePicker onChange={onChangeDatePicker} style={{marginLeft:"20px"}}/>
+                    <Form.Item label="등록일">
+                        <DatePicker onChange={onChangeDatePicker} value={registeredDt} required/>
+                    </Form.Item>
                 </div>
-                <div style={{margin: "10px 10px 10px 10px", display: "block", float:"right"}}>
-                    <Button
-                        onClick={handleAdd}
-                        type="primary"
-                        style={{
-                        height:"30px", right:0, marginRight:0
-                        }}>
-                        추가
-                    </Button>
+                <div>
+                    <Form.Item label="이메일">
+                        <Input style={{width: "250px"}} onChange={onChange} value={email} name="email" placeholder='cj@cj.net' />
+                    </Form.Item>
                 </div>
+                <div style={{display: "block", float:"right", height:"40px"}}>
+                    <Form.Item style={{marginDown:"0px"}}>
+                        <Button
+                            onClick={handleAdd}
+                            type="primary"
+                            style={{
+                            height:"30px", right:0, marginRight:0
+                            }}>
+                            추가
+                        </Button>
+                    </Form.Item>
+                </div>
+                <Form.Item label="개월수">
+                    <Radio.Group options={options} onChange={onChange} value={monthOfRegistration} name="monthOfRegistration" defaultValue={"1"}/>
+                </Form.Item>
                 <div>
                     <Table
                         components={components}
@@ -250,7 +295,10 @@ const [count, setCount] = useState(1);
                         columns={columns}
                     />
                 </div>
-            </form>
+                <div style={{height:'30px'}}>
+                    <Button type="primary" htmlType="submit" style={{margin: "10px 10px 10px 10px",float:"right"}}>등록</Button>
+                </div>
+            </Form>
         </>
     )
 };
