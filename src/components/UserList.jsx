@@ -9,25 +9,28 @@ const columns = [
     },
     {
         title: '이름',
-        dataIndex: 'memberId',
-        width: '20%'
+        dataIndex: 'memberName',
     },
     {
         title: '등록일',
-        dataIndex: 'name',
+        dataIndex: 'registeredDt',
     },
     {
         title: '수강개월',
-        dataIndex: 'name',
+        dataIndex: 'lessonDay',
     },
     {
-        title: '수강요일',
-        dataIndex: 'name',
+        title: '수강시간',
+        dataIndex: 'lessonTime',
     },
     {
         title: '이메일',
         dataIndex: 'email',
     },
+    {
+        title: '번호',
+        dataIndex: 'phoneNumber',
+    }
 ];
 
 

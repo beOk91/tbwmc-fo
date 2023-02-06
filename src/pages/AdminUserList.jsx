@@ -17,7 +17,7 @@ const AdminUserList = ()=>{
 
     const retrieveUser = async ()=>{
         try{
-            const response = await axios.get('/user/list', {withCredentials: true });
+            const response = await axios.get('/member/list', {withCredentials: true });
             setDataSource(response.data);
         }catch(err){
             console.log(err);
@@ -32,6 +32,17 @@ const AdminUserList = ()=>{
         setIsModalOpen(false);
     };
 
+    const saveMember = async (data)=>{
+        console.log('saveMember!');
+        console.log(data);
+        try{
+            const response = await axios.post('/member/register', data);
+            
+        }catch(err){
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <div style={{marginLeft:"auto", height:"30px", marginRight: "24px", margin: "10px 50px 10px 50px"}}>
@@ -43,7 +54,7 @@ const AdminUserList = ()=>{
                 </Button>
             </div>
             <Modal title="회원 등록" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} >
-                    <Register handleCancel={handleCancel}/>
+                    <Register handleCancel={handleCancel} saveMember={saveMember}/>
             </Modal>
             <UserList dataSource={dataSource}/>
         </>

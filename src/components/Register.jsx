@@ -36,6 +36,8 @@ const EditableCell = ({
     }
   }, [editing]);
 
+
+
   const toggleEdit = () => {
     console.log('toggleEdit!!');
     console.log(record);
@@ -133,12 +135,22 @@ const reducer = (state,action)=>{
     }
 };
 
-const Register = ({handleCancel})=> {
+const Register = ({handleCancel, saveMember})=> {
     const [userName,setUserName] = useState('');
     const [registeredDt, setRegisteredDt]= useState('');
     const [email,setEmail] = useState('');
     const [monthOfRegistration,setMonthOfRegistration] = useState("1");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [dataSource, setDataSource] = useState([]);
+
+    useEffect(() => {
+      if (phoneNumber.length === 10) {
+        setPhoneNumber(phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+      }
+      if (phoneNumber.length === 13) {
+        setPhoneNumber(phoneNumber.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+      }
+    }, [phoneNumber]);
 
     const dispatch = useDispatch();
 
@@ -154,6 +166,13 @@ const Register = ({handleCancel})=> {
             case 'monthOfRegistration':
                 setMonthOfRegistration(value);
                 return;
+            case 'phoneNumber':
+                const regex = /^[0-9\b -]{0,13}$/;
+                if (regex.test(e.target.value)) {
+                  setPhoneNumber(value);
+                }
+                return;
+
         }
     };
 
@@ -167,6 +186,7 @@ const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
+
   const defaultColumns = [
     {
       title: '',
@@ -248,8 +268,16 @@ const handleDelete = (key) => {
 
 
   const onSubmitForm = ()=>{
-    console.log(userName, registeredDt.format('YYYY-MM-DD'), email, dataSource);
-    
+    console.log(userName, registeredDt.format('YYYY-MM-DD'), email, monthOfRegistration, dataSource,phoneNumber);
+    console.log(phoneNumber.replace('-',''));
+    const memberDto = new FormData();
+    memberDto.append('memberName', userName);
+    memberDto.append('registeredDt', registeredDt.format('YYYY-MM-DD'));
+    memberDto.append('email', email);
+    memberDto.append('phoneNumber',phoneNumber.replaceAll('-',''));
+    memberDto.append('monthOfRegistration', monthOfRegistration);
+    memberDto.append('dataSource', dataSource);
+    saveMember(memberDto);
     handleCancel();
   };
 
@@ -264,6 +292,11 @@ const handleDelete = (key) => {
                 <div>
                     <Form.Item label="등록일">
                         <DatePicker onChange={onChangeDatePicker} value={registeredDt} required/>
+                    </Form.Item>
+                </div>
+                <div>
+                    <Form.Item label="핸드폰번호">
+                        <Input onChange={onChange} value={phoneNumber} name="phoneNumber"/>
                     </Form.Item>
                 </div>
                 <div>
