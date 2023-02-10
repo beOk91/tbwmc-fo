@@ -42,16 +42,10 @@ const EditableCell = ({
     console.log('toggleEdit!!');
     console.log(record);
     setEditing(!editing);
-    if(dataIndex === 'lessonTime'){
-        console.log(record[dataIndex]);
-        form.setFieldsValue({
-            [dataIndex]: dayjs(record[dataIndex],format),
-          });
-    }else{
-        form.setFieldsValue({
-            [dataIndex]: record[dataIndex],
-          });
-    }
+    form.setFieldsValue({
+        [dataIndex]: record[dataIndex],
+      });
+    console.log('toggleEdit end');
     
   };
 
@@ -61,7 +55,6 @@ const EditableCell = ({
     try {
       const values = await form.validateFields();
       console.log(values);
-      values.lessonTime = moment.format({format});
       toggleEdit();
       handleSave({
         ...record,
@@ -76,8 +69,10 @@ const EditableCell = ({
     console.log(`selected ${value}`);
   };
   
-  const timeChange = (value) =>{
+  const timeChange = (value, timeString) =>{
+    console.log('time change');
     console.log(value);
+    console.log(timeString);
   }
 
   let childNode = children;
@@ -96,8 +91,7 @@ const EditableCell = ({
           },
         ]}
       >
-        {dataIndex === 'lessonTime' ?  <TimePicker ref={inputRef} onChange={timeChange} onBlur={save} format={format} /> : 
-         dataIndex === 'day' ? <Select ref={inputRef} onBlur={save} style={{ width: 120}} onChange={handleChange} options={OPTIONS} /> : 
+        {dataIndex === 'day' ? <Select ref={inputRef} onBlur={save} style={{ width: 120}} onChange={handleChange} options={OPTIONS_DAY} /> : 
          <Input ref={inputRef} onPressEnter={save} onBlur={save} />  }
       </Form.Item>
     ) : (
@@ -116,7 +110,7 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-const OPTIONS = [
+const OPTIONS_DAY = [
 	{ value: "mon", name: "월" },
 	{ value: "tue", name: "화" },
 	{ value: "wed", name: "수" },
@@ -227,12 +221,14 @@ const handleDelete = (key) => {
         day:'mon',
         lessonTime: '00:00',
         };
+        console.log(dataSource);
         setDataSource([...dataSource, newData]);
         setCount(count + 1);
     }
   };
 
   const handleSave = (row) => {
+    console.log('handle save!');
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
@@ -240,6 +236,7 @@ const handleDelete = (key) => {
       ...item,
       ...row,
     });
+    console.log(newData);
     setDataSource(newData);
   };
 
@@ -276,7 +273,15 @@ const handleDelete = (key) => {
     memberDto.append('email', email);
     memberDto.append('phoneNumber',phoneNumber.replaceAll('-',''));
     memberDto.append('monthOfRegistration', monthOfRegistration);
-    memberDto.append('dataSource', dataSource);
+    memberDto.append('lessonStartDate',registeredDt.format('YYYYMMDD'));
+    for(var i=0;i<dataSource.length;i++){
+      memberDto.append('dataSource['+i+'].lessonDay',dataSource[i].day);
+      memberDto.append('dataSource['+i+'].lessonTime',dataSource[i].lessonTime.replaceAll(':',''));
+      memberDto.append('dataSource['+i+'].lessonStartDate',registeredDt.format('YYYYMMDD'));
+      memberDto.append('dataSource['+i+'].monthOfRegistration',monthOfRegistration);
+    }
+    console.log('memberDto!');
+   console.log(...memberDto);
     saveMember(memberDto);
     handleCancel();
   };

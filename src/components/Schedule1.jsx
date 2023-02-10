@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{memo} from 'react';
 import { Badge, Calendar } from 'antd';
 
 const getListData = (value) => {
@@ -69,9 +69,10 @@ const getMonthData = (value) => {
     return 1394;
   }
 };
-const Schedule1 = () =>{
+const Schedule1 = memo(() =>{
     
     const monthCellRender = (value) => {
+      console.log('monthCellRender');
         const num = getMonthData(value);
         return num ? (
           <div className="notes-month">
@@ -81,6 +82,7 @@ const Schedule1 = () =>{
         ) : null;
       };
       const dateCellRender = (value) => {
+        console.log('dateCellRender');
         const listData = getListData(value);
         return (
           <ul className="events">
@@ -98,5 +100,5 @@ const Schedule1 = () =>{
             <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} mode="month" />
         </>
     )
-}
+});
 export default Schedule1;
