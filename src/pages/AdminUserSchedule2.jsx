@@ -1,6 +1,6 @@
 import React from 'react';
 import Schedule2 from '../components/Schedule2';
-const AdminUserSchedule = ()=>{
+const AdminUserSchedule2 = ()=>{
     return (
         <>
             <Schedule2/>
@@ -8,4 +8,4 @@ const AdminUserSchedule = ()=>{
     );
 };
 
-export default AdminUserSchedule;
+export default AdminUserSchedule2;
