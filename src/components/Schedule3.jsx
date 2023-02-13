@@ -80,10 +80,10 @@ function Schedule3() {
                 if (response.data.length > 0) {
                     for (let i = 0; i < response.data.length; i++) {
                         const data = {
-                            id: response.data[i].lessonSeq,
+                            id: response.data[i].lessonDetailSeq,
                             title: response.data[i].name,
-                            start: response.data[i].startDate + ' ' + response.data[i].startTime,
-                            end: response.data[i].startDate + ' ' + response.data[i].endTime
+                            start: response.data[i].lessonDate + ' ' + response.data[i].startTime,
+                            end: response.data[i].lessonDate + ' ' + response.data[i].endTime
                         }
                         setTotalData(totalData => [...totalData, data]);
                     }
