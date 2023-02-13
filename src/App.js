@@ -4,6 +4,7 @@ import { Layout, Menu, theme } from 'antd';
 import AdminUserList from './pages/AdminUserList';
 import AdminUserSchedule1 from './pages/AdminUserSchedule1';
 import AdminUserSchedule2 from './pages/AdminUserSchedule2';
+import AdminUserSchedule3 from './pages/AdminUserSchedule3';
 
 function App() {
 
@@ -45,6 +46,10 @@ function App() {
       label: <Link to="/lesson2">수강관리(2)</Link>,
       key: "/lesson2",
     },
+    {
+      label: <Link to="/lesson3">수강관리(3)</Link>,
+      key: "/lesson3",
+    },
   ];
 
   const onMenu = e => {
@@ -76,6 +81,11 @@ function App() {
         {current === '/lesson2' &&
           <div style={{ padding: 24, minHeight: 380, background: colorBgContainer }}>
             <AdminUserSchedule2 />
+          </div>
+        }
+        {current === '/lesson3' &&
+          <div style={{ padding: 15, minHeight: 380, background: colorBgContainer }}>
+            <AdminUserSchedule3 />
           </div>
         }
       </Content>
